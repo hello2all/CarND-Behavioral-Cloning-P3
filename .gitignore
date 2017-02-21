@@ -1,3 +1,5 @@
+.DS_Store
 simulator
 beta_simulator_linux
 data
+__pycache__
