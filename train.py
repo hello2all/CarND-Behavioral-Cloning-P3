@@ -25,9 +25,23 @@ print(len(train_samples), len(validation_samples))
 
 
 # compile and train the model using the generator function
-train_generator = generator_train(train_samples, batch_size=32)
-validation_generator = generator_validation(validation_samples, batch_size=32)
+train_generator = generator_train(train_samples, batch_size=128)
+validation_generator = generator_validation(validation_samples, batch_size=128)
 
-Nvidia_model = model.build_model()
-Nvidia_model.compile(loss='mse', optimizer='adam')
-history_object = Nvidia_model.fit_generator(train_generator, samples_per_epoch=len(train_samples), validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=2)
+nvidia_model = model.build_model()
+nvidia_model.compile(loss='mse', optimizer='adam')
+history_object = nvidia_model.fit_generator(train_generator,
+                                            samples_per_epoch=len(train_samples),
+                                            validation_data=validation_generator,
+                                            nb_val_samples=len(validation_samples),
+                                            nb_epoch=100)
+
+nvidia_model.save('nvidia_model.h5')
+
+
+## TODO:
+## 1. Random deny low steering value, filter out going straight bias
+## 2. preprocess (crop image) for driving (in model?)
+## 3. vertical shift to simulate up/down hill road
+## 4. create artificial shadow to simulate lighting change
+## 5. 

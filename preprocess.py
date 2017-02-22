@@ -33,7 +33,7 @@ def trans_image(image, steer,trans_range):
     
     return image_tr, steer_ang, tr_x
 
-def preprocessImage(image, new_shape=(200, 66)):
+def cropImage(image, new_shape=(200, 66)):
     # Preprocessing image files
     shape = image.shape
     # note: numpy arrays are (row, col)!
@@ -58,7 +58,7 @@ def preprocess_image_file_train(line_data):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image,y_steer,tr_x = trans_image(image, y_steer, 150)
     image = augment_brightness_camera_images(image)
-    image = preprocessImage(image)
+    image = cropImage(image)
     image = np.array(image)
     ind_flip = np.random.randint(2)
     if ind_flip == 0:
@@ -72,6 +72,6 @@ def preprocess_image_file_predict(line_data):
     y_steer = float(line_data[3].strip())
     image = cv2.imread('./data/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    image = preprocessImage(image)
+    image = cropImage(image)
     image = np.array(image)
     return image, y_steer
