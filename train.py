@@ -36,12 +36,12 @@ history_object = nvidia_model.fit_generator(train_generator,
                                             nb_val_samples=len(validation_samples),
                                             nb_epoch=100)
 
-nvidia_model.save('nvidia_model.h5')
+nvidia_model.save('./output/nvidia_model.h5')
 
 
 ## TODO:
 ## 1. Random deny low steering value, filter out going straight bias
-## 2. preprocess (crop image) for driving (in model?)
+## 2. preprocess (crop image) for driving (in model?) check
 ## 3. vertical shift to simulate up/down hill road
 ## 4. create artificial shadow to simulate lighting change
 ## 5. 

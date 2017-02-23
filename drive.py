@@ -17,7 +17,6 @@ import h5py
 from keras import __version__ as keras_version
 
 from preprocess import cropImage
-import matplotlib.pyplot as plt
 
 sio = socketio.Server()
 app = Flask(__name__)

@@ -5,3 +5,6 @@ data
 __pycache__
 *.pyc
 *.h5
+.floyd*
+input
+output
