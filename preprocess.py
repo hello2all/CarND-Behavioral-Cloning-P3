@@ -7,6 +7,7 @@ import math
 
 rows = 160
 cols = 320
+CURRENT_DIR = os.getcwd()
 
 def add_random_shadow(image):
     top_y = 320*np.random.uniform()
@@ -70,7 +71,7 @@ def preprocess_image_file_train(line_data):
         path_file = line_data[2].strip()
         shift_ang = -.25
     y_steer = float(line_data[3].strip()) + shift_ang
-    image = cv2.imread('./input/' + path_file.replace(' ', ''))
+    image = cv2.imread(CURRENT_DIR + '/input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image,y_steer,tr_x = trans_image(image, y_steer, 150)
     image = augment_brightness_camera_images(image)
@@ -86,7 +87,7 @@ def preprocess_image_file_predict(line_data):
     # Preprocessing Prediction files and augmenting
     path_file = line_data[0].strip()
     y_steer = float(line_data[3].strip())
-    image = cv2.imread('./input/' + path_file.replace(' ', ''))
+    image = cv2.imread(CURRENT_DIR + '/input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cropImage(image)
     image = np.array(image)
