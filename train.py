@@ -11,7 +11,7 @@ import preprocess
 
 def read_samples():
     samples = []
-    with open('./data/driving_log.csv') as csvfile:
+    with open('./input/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             samples.append(line)

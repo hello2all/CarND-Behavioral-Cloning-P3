@@ -5,14 +5,30 @@ from scipy import signal
 import cv2
 import math
 
-# def process_newimage_file(name):
-#     # Preprocessing image
-#     image = cv2.imread(name)
-#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-#     image = image/255.-.5
-#     return image
 rows = 160
 cols = 320
+
+def add_random_shadow(image):
+    top_y = 320*np.random.uniform()
+    top_x = 0
+    bot_x = 160
+    bot_y = 320*np.random.uniform()
+    image_hls = cv2.cvtColor(image,cv2.COLOR_RGB2HLS)
+    shadow_mask = 0*image_hls[:,:,1]
+    X_m = np.mgrid[0:image.shape[0],0:image.shape[1]][0]
+    Y_m = np.mgrid[0:image.shape[0],0:image.shape[1]][1]
+    shadow_mask[((X_m-top_x)*(bot_y-top_y) -(bot_x - top_x)*(Y_m-top_y) >=0)]=1
+    #random_bright = .25+.7*np.random.uniform()
+    if np.random.randint(2)==1:
+        random_bright = .5
+        cond1 = shadow_mask==1
+        cond0 = shadow_mask==0
+        if np.random.randint(2)==1:
+            image_hls[:,:,1][cond1] = image_hls[:,:,1][cond1]*random_bright
+        else:
+            image_hls[:,:,1][cond0] = image_hls[:,:,1][cond0]*random_bright    
+    image = cv2.cvtColor(image_hls,cv2.COLOR_HLS2RGB)
+    return image
 
 def augment_brightness_camera_images(image):
     image1 = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
@@ -54,7 +70,7 @@ def preprocess_image_file_train(line_data):
         path_file = line_data[2].strip()
         shift_ang = -.25
     y_steer = float(line_data[3].strip()) + shift_ang
-    image = cv2.imread('./data/' + path_file.replace(' ', ''))
+    image = cv2.imread('./input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image,y_steer,tr_x = trans_image(image, y_steer, 150)
     image = augment_brightness_camera_images(image)
@@ -70,7 +86,7 @@ def preprocess_image_file_predict(line_data):
     # Preprocessing Prediction files and augmenting
     path_file = line_data[0].strip()
     y_steer = float(line_data[3].strip())
-    image = cv2.imread('./data/' + path_file.replace(' ', ''))
+    image = cv2.imread('./input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cropImage(image)
     image = np.array(image)
