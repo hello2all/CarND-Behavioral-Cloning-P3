@@ -42,7 +42,7 @@ def trans_image(image, steer,trans_range):
     # Translation
     tr_x = trans_range * np.random.uniform() - trans_range/2
     steer_ang = steer + tr_x/trans_range*2*.2
-    tr_y = 10 * np.random.uniform() - 10/2
+    tr_y = 40 * np.random.uniform() - 40/2
     #tr_y = 0
     Trans_M = np.float32([[1, 0, tr_x], [0, 1, tr_y]])
     image_tr = cv2.warpAffine(image, Trans_M, (cols,rows))
@@ -72,6 +72,7 @@ def preprocess_image_file_train(line_data):
     y_steer = float(line_data[3].strip()) + shift_ang
     image = cv2.imread('/input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = add_random_shadow(image)
     image,y_steer,tr_x = trans_image(image, y_steer, 150)
     image = augment_brightness_camera_images(image)
     image = cropImage(image)
