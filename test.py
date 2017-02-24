@@ -12,11 +12,10 @@ from sklearn.model_selection import train_test_split
 from generator import generator_validation, generator_train
 import model
 import preprocess
-from preprocess import CURRENT_DIR
 
 def read_samples():
     samples = []
-    with open(CURRENT_DIR + '/input/driving_log.csv') as csvfile:
+    with open('/input/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             samples.append(line)

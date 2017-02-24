@@ -5,14 +5,15 @@ import numpy as np
 import pandas
 from sklearn.model_selection import train_test_split
 
-from generator import generator_validation, generator_train
 import model
 import preprocess
-from preprocess import CURRENT_DIR
+from generator import generator_train, generator_validation
+from keras.callbacks import ModelCheckpoint
+
 
 def read_samples():
     samples = []
-    with open(CURRENT_DIR + '/input/driving_log.csv') as csvfile:
+    with open('/input/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             samples.append(line)
@@ -31,13 +32,15 @@ validation_generator = generator_validation(validation_samples, batch_size=128)
 
 nvidia_model = model.build_model()
 nvidia_model.compile(loss='mse', optimizer='adam')
+checkpointer = ModelCheckpoint(filepath="/output/weights.hdf5", verbose=1, save_best_only=True)
 history_object = nvidia_model.fit_generator(train_generator,
                                             samples_per_epoch=len(train_samples),
                                             validation_data=validation_generator,
                                             nb_val_samples=len(validation_samples),
-                                            nb_epoch=100)
+                                            nb_epoch=1000,
+                                            callbacks=[checkpointer])
 
-nvidia_model.save(CURRENT_DIR + '/output/nvidia_model.h5')
+nvidia_model.save('/output/nvidia_model.h5')
 
 
 ## TODO:
