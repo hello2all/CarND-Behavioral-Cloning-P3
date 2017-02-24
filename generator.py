@@ -3,6 +3,8 @@ import cv2
 import sklearn
 from preprocess import preprocess_image_file_train, preprocess_image_file_predict
 
+resample_rate = 3
+
 def generator_validation(samples, batch_size=32):
     num_samples = len(samples)
     while 1: # Loop forever so the generator never terminates
@@ -26,6 +28,8 @@ def generator_train(samples, batch_size=32):
     num_samples = len(samples)
     while 1: # Loop forever so the generator never terminates
         sklearn.utils.shuffle(samples)
+        ## generate more training data by resampling
+        samples = sklearn.utils.resample(samples,n_samples=int(num_samples*resample_rate), random_state=42)
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset:offset+batch_size]
 
