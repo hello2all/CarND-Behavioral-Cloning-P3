@@ -4,6 +4,7 @@ import os
 import numpy as np
 import pandas
 from sklearn.model_selection import train_test_split
+from sklearn.utils import resample
 
 import model
 import preprocess
@@ -23,7 +24,11 @@ def read_samples():
 
 samples = read_samples()
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
-print(len(train_samples), len(validation_samples))
+resample_rate = 3
+## generate more training data by resampling
+train_samples = resample(samples, n_samples=int(len(train_samples)*resample_rate), random_state=42)
+print("Number of training samples: {}".format(len(train_samples)))
+print("Number of validation samples: {}".format(len(validation_samples)))
 
 
 # compile and train the model using the generator function
