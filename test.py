@@ -16,7 +16,7 @@ import cv2
 
 # def read_samples():
 #     samples = []
-#     with open('/input/driving_log.csv') as csvfile:
+#     with open(dot + '/input/driving_log.csv') as csvfile:
 #         reader = csv.reader(csvfile)
 #         for line in reader:
 #             samples.append(line)

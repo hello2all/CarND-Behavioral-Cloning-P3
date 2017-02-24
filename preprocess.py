@@ -4,6 +4,7 @@ import numpy as np
 from scipy import signal
 import cv2
 import math
+from para import dot
 
 rows = 160
 cols = 320
@@ -70,7 +71,7 @@ def preprocess_image_file_train(line_data):
         path_file = line_data[2].strip()
         shift_ang = -.25
     y_steer = float(line_data[3].strip()) + shift_ang
-    image = cv2.imread('/input/' + path_file.replace(' ', ''))
+    image = cv2.imread(dot + '/input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = add_random_shadow(image)
     image,y_steer,tr_x = trans_image(image, y_steer, 150)
@@ -87,7 +88,7 @@ def preprocess_image_file_predict(line_data):
     # Preprocessing Prediction files and augmenting
     path_file = line_data[0].strip()
     y_steer = float(line_data[3].strip())
-    image = cv2.imread('/input/' + path_file.replace(' ', ''))
+    image = cv2.imread(dot + '/input/' + path_file.replace(' ', ''))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cropImage(image)
     image = np.array(image)

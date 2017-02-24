@@ -10,11 +10,12 @@ import model
 import preprocess
 from generator import generator_train, generator_validation
 from keras.callbacks import ModelCheckpoint
+from para import dot
 
 
 def read_samples():
     samples = []
-    with open('/input/driving_log.csv') as csvfile:
+    with open(dot + '/input/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             samples.append(line)
@@ -37,7 +38,7 @@ validation_generator = generator_validation(validation_samples, batch_size=128)
 
 nvidia_model = model.build_model()
 nvidia_model.compile(loss='mse', optimizer='adam')
-checkpointer = ModelCheckpoint(filepath="/output/weights.hdf5", verbose=1, save_best_only=True)
+checkpointer = ModelCheckpoint(filepath=dot + "/output/weights.hdf5", verbose=1, save_best_only=True)
 history_object = nvidia_model.fit_generator(train_generator,
                                             samples_per_epoch=len(train_samples),
                                             validation_data=validation_generator,
@@ -45,12 +46,12 @@ history_object = nvidia_model.fit_generator(train_generator,
                                             nb_epoch=1000,
                                             callbacks=[checkpointer])
 
-nvidia_model.save('/output/nvidia_model.h5')
+nvidia_model.save(dot + '/output/nvidia_model.h5')
 
 
 ## TODO:
 ## 1. Random deny low steering value, filter out going straight bias
 ## 2. preprocess (crop image) for driving (in model?) check
-## 3. vertical shift to simulate up/down hill road
-## 4. create artificial shadow to simulate lighting change
+## 3. vertical shift to simulate up/down hill road check
+## 4. create artificial shadow to simulate lighting change check
 ## 5. 
