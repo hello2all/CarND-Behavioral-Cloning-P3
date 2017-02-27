@@ -1,2 +1,2 @@
 # for floyd compatibility
-dot = ""
+dot = "."

@@ -46,7 +46,10 @@ history_object = nvidia_model.fit_generator(train_generator,
                                             nb_epoch=1000,
                                             callbacks=[checkpointer])
 
+# save the best performance model
+nvidia_model.load_weights(dot + '/output/weights.hdf5')
 nvidia_model.save(dot + '/output/nvidia_model.h5')
+
 
 
 ## TODO:
