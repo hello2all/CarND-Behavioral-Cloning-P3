@@ -44,7 +44,7 @@ My project includes the following files:
 * preprocess.py for preprocessing image data to the generator
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
-* writeup_report.md summarizing the results
+* writeup_report.md and writeup_report.pdf summarizing the results
 * para.py external parameters for development(please ignore this file)
 
 #### 2. Submission includes functional code
